@@ -1,7 +1,8 @@
 name: Deploy Pages
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [feature/allow-model-selection]
 
 permissions:
   contents: read
