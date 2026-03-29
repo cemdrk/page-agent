@@ -8,9 +8,7 @@ import { Highlighter } from '../../components/ui/highlighter'
 import { NeonGradientCard } from '../../components/ui/neon-gradient-card'
 import { Particles } from '../../components/ui/particles'
 import {
-	CDN_DEMO_CN_URL,
 	CDN_DEMO_URL,
-	// DEMO_API_KEY,
 	DEMO_BASE_URL,
 	DEMO_MODEL,
 } from '../../constants'
@@ -19,7 +17,7 @@ import { useLanguage } from '../../i18n/context'
 let pageAgentModule: Promise<typeof import('page-agent')> | null = null
 
 function getInjection(useCN?: boolean) {
-	const cdn = useCN ? CDN_DEMO_CN_URL : CDN_DEMO_URL
+	const cdn = CDN_DEMO_URL
 
 	const injection = encodeURI(
 		`javascript:(function(){var s=document.createElement('script');s.src=\`${cdn}?t=\${Math.random()}\`;s.setAttribute('crossorigin', true);s.type="text/javascript";s.onload=()=>console.log('PageAgent script loaded!');document.body.appendChild(s);})();`
@@ -296,8 +294,7 @@ export default function HeroSection() {
 															}
 															className="px-2 py-1.5 text-xs border border-gray-300 dark:border-gray-500 rounded bg-white dark:bg-gray-600 text-gray-700 dark:text-gray-200"
 														>
-															<option value="international">jsdelivr CDN</option>
-															<option value="china">npmmirror CDN</option>
+															<option value="international">Github</option>
 														</select>
 														<div
 															dangerouslySetInnerHTML={{
