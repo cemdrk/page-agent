@@ -15,6 +15,14 @@ export interface PanelConfig {
 	 * @default true
 	 */
 	promptForNextTask?: boolean
+	/** Initial model name */
+	model?: string
+	/** Initial base URL */
+	baseURL?: string
+	/** Initial API key */
+	apiKey?: string
+	/** Called when settings are saved in the settings panel */
+	onConfigChange?: (config: { model: string; baseURL: string; apiKey: string }) => void
 }
 
 /**
@@ -36,10 +44,15 @@ export class Panel {
 	#actionButton: HTMLElement
 	#inputSection: HTMLElement
 	#taskInput: HTMLInputElement
+	#settingsSection: HTMLElement
+	#modelInput: HTMLInputElement
+	#baseURLInput: HTMLInputElement
+	#apiKeyInput: HTMLInputElement
 
 	#agent: PanelAgentAdapter
 	#config: PanelConfig
 	#isExpanded = false
+	#isSettingsOpen = false
 	#i18n: I18n
 	#userAnswerResolver: ((input: string) => void) | null = null
 	#isWaitingForUserAnswer: boolean = false
@@ -79,6 +92,10 @@ export class Panel {
 		this.#actionButton = this.#wrapper.querySelector(`.${styles.stopButton}`)!
 		this.#inputSection = this.#wrapper.querySelector(`.${styles.inputSectionWrapper}`)!
 		this.#taskInput = this.#wrapper.querySelector(`.${styles.taskInput}`)!
+		this.#settingsSection = this.#wrapper.querySelector(`.${styles.settingsSectionWrapper}`)!
+		this.#modelInput = this.#wrapper.querySelector('[data-field="model"]') as HTMLInputElement
+		this.#baseURLInput = this.#wrapper.querySelector('[data-field="baseURL"]') as HTMLInputElement
+		this.#apiKeyInput = this.#wrapper.querySelector('[data-field="apiKey"]') as HTMLInputElement
 
 		// Listen to agent events
 		this.#agent.addEventListener('statuschange', this.#onStatusChange)
@@ -369,7 +386,7 @@ export class Panel {
 	}
 
 	#createWrapper(): HTMLElement {
-		const taskInputMaxLength = 1000
+		const taskInputMaxLength = 10000
 		const wrapper = document.createElement('div')
 		wrapper.id = 'page-agent-runtime_agent-panel'
 		wrapper.className = styles.wrapper
@@ -394,6 +411,9 @@ export class Panel {
 					<div class="${styles.statusText}">${this.#i18n.t('ui.panel.ready')}</div>
 				</div>
 				<div class="${styles.controls}">
+					<button class="${styles.controlButton} ${styles.settingsButton}" title="${this.#i18n.t('ui.panel.settings')}">
+						⚙
+					</button>
 					<button class="${styles.controlButton} ${styles.expandButton}" title="${this.#i18n.t('ui.panel.expand')}">
 						▼
 					</button>
@@ -409,6 +429,26 @@ export class Panel {
 						class="${styles.taskInput}" 
 						maxlength="${taskInputMaxLength}"
 					/>
+				</div>
+			</div>
+			<div class="${styles.settingsSectionWrapper} ${styles.hidden}">
+				<div class="${styles.settingsSection}">
+					<div class="${styles.settingsRow}">
+						<label class="${styles.settingsLabel}">${this.#i18n.t('ui.panel.settingsModel')}</label>
+						<input type="text" class="${styles.settingsInput}" data-field="model" value="${this.#config.model ?? ''}" placeholder="e.g. claude-haiku-4-5" />
+					</div>
+					<div class="${styles.settingsRow}">
+						<label class="${styles.settingsLabel}">${this.#i18n.t('ui.panel.settingsBaseURL')}</label>
+						<input type="text" class="${styles.settingsInput}" data-field="baseURL" value="${this.#config.baseURL ?? ''}" placeholder="https://api.anthropic.com" />
+					</div>
+					<div class="${styles.settingsRow}">
+						<label class="${styles.settingsLabel}">${this.#i18n.t('ui.panel.settingsApiKey')}</label>
+						<input type="password" class="${styles.settingsInput}" data-field="apiKey" value="${this.#config.apiKey ?? ''}" placeholder="sk-..." />
+					</div>
+					<div class="${styles.settingsActions}">
+						<button class="${styles.settingsCancelButton}">${this.#i18n.t('ui.panel.settingsCancel')}</button>
+						<button class="${styles.settingsSaveButton}">${this.#i18n.t('ui.panel.settingsSave')}</button>
+					</div>
 				</div>
 			</div>
 		`
@@ -451,6 +491,32 @@ export class Panel {
 
 		// Prevent input area click event bubbling
 		this.#inputSection.addEventListener('click', (e) => {
+			e.stopPropagation()
+		})
+
+		// Settings button
+		const settingsButton = this.#wrapper.querySelector(`.${styles.settingsButton}`)!
+		settingsButton.addEventListener('click', (e) => {
+			e.stopPropagation()
+			this.#toggleSettings()
+		})
+
+		// Settings cancel
+		const cancelButton = this.#wrapper.querySelector(`.${styles.settingsCancelButton}`)!
+		cancelButton.addEventListener('click', (e) => {
+			e.stopPropagation()
+			this.#closeSettings()
+		})
+
+		// Settings save
+		const saveButton = this.#wrapper.querySelector(`.${styles.settingsSaveButton}`)!
+		saveButton.addEventListener('click', (e) => {
+			e.stopPropagation()
+			this.#saveSettings()
+		})
+
+		// Prevent settings area click event bubbling
+		this.#settingsSection.addEventListener('click', (e) => {
 			e.stopPropagation()
 		})
 	}
@@ -538,6 +604,44 @@ export class Panel {
 				this.#isAnimating = false
 			}, 300)
 		}, 150) // Half the duration of fade out animation
+	}
+
+	#toggleSettings(): void {
+		if (this.#isSettingsOpen) {
+			this.#closeSettings()
+		} else {
+			this.#openSettings()
+		}
+	}
+
+	#openSettings(): void {
+		this.#isSettingsOpen = true
+		// Sync inputs with current config values
+		this.#modelInput.value = this.#config.model ?? ''
+		this.#baseURLInput.value = this.#config.baseURL ?? ''
+		this.#apiKeyInput.value = this.#config.apiKey ?? ''
+		this.#hideInputArea()
+		this.#settingsSection.classList.remove(styles.hidden)
+		setTimeout(() => this.#modelInput.focus(), 100)
+	}
+
+	#closeSettings(): void {
+		this.#isSettingsOpen = false
+		this.#settingsSection.classList.add(styles.hidden)
+		if (this.#shouldShowInputArea()) {
+			this.#showInputArea()
+		}
+	}
+
+	#saveSettings(): void {
+		const model = this.#modelInput.value.trim()
+		const baseURL = this.#baseURLInput.value.trim()
+		const apiKey = this.#apiKeyInput.value.trim()
+		this.#config.model = model
+		this.#config.baseURL = baseURL
+		this.#config.apiKey = apiKey
+		this.#config.onConfigChange?.({ model, baseURL, apiKey })
+		this.#closeSettings()
 	}
 
 	#updateStatusIndicator(

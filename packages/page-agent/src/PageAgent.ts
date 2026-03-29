@@ -24,6 +24,10 @@ export class PageAgent extends PageAgentCore {
 		this.panel = new Panel(this, {
 			language: config.language,
 			promptForNextTask: config.promptForNextTask,
+			model: config.model,
+			baseURL: config.baseURL,
+			apiKey: config.apiKey,
+			onConfigChange: ({ model, baseURL, apiKey }) => this.configure({ model, baseURL, apiKey }),
 		})
 	}
 }
