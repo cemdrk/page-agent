@@ -1,6 +1,5 @@
 // Demo build (auto-init with demo LLM, for quick testing)
-export const CDN_DEMO_URL = 'https://github.com/cemdrk/page-agent/releases/download/demo-2/page-agent.demo.js'
-
+export const CDN_DEMO_URL = 'https://raw.githubusercontent.com/cemdrk/page-agent/refs/heads/feature/allow-model-selection/demo/page-agent.demo.js'
 
 // Demo LLM for website testing (homepage quick trial uses flash)
 export const DEMO_MODEL = 'qwen3.5-flash'
