@@ -150,6 +150,14 @@ export class PageAgentCore extends EventTarget {
 		return this.#status
 	}
 
+	/** Update LLM model, baseURL, and/or apiKey at runtime */
+	configure(patch: { model?: string; baseURL?: string; apiKey?: string }): void {
+		if (patch.model !== undefined) this.config.model = patch.model
+		if (patch.baseURL !== undefined) this.config.baseURL = patch.baseURL
+		if (patch.apiKey !== undefined) this.config.apiKey = patch.apiKey
+		this.#llm.configure(patch)
+	}
+
 	/** Emit statuschange event */
 	#emitStatusChange(): void {
 		this.dispatchEvent(new Event('statuschange'))

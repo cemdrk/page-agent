@@ -38,6 +38,11 @@ export class LLM extends EventTarget {
 		this.client = new OpenAIClient(this.config)
 	}
 
+	configure(patch: Partial<LLMConfig>): void {
+		this.config = parseLLMConfig({ ...this.config, ...patch })
+		this.client = new OpenAIClient(this.config)
+	}
+
 	/**
 	 * - call llm api *once*
 	 * - invoke tool call *once*
