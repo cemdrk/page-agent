@@ -1,6 +1,6 @@
 import CodeEditor from '@/components/CodeEditor'
 import { Heading } from '@/components/Heading'
-import { CDN_DEMO_CN_URL, CDN_DEMO_URL } from '@/constants'
+import { CDN_DEMO_URL } from '@/constants'
 import { useLanguage } from '@/i18n/context'
 
 export default function QuickStart() {
@@ -71,10 +71,6 @@ export default function QuickStart() {
 							<tr className="border-b border-gray-100 dark:border-gray-800">
 								<td className="py-2 px-3">{isZh ? '全球' : 'Global'}</td>
 								<td className="py-2 px-3 font-mono text-xs break-all">{CDN_DEMO_URL}</td>
-							</tr>
-							<tr>
-								<td className="py-2 px-3">{isZh ? '中国' : 'China'}</td>
-								<td className="py-2 px-3 font-mono text-xs break-all">{CDN_DEMO_CN_URL}</td>
 							</tr>
 						</tbody>
 					</table>
