@@ -25,7 +25,17 @@ jobs:
       - name: Build IIFE demo
         run: npm run build:demo -w page-agent
 
+      - name: Create tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "demo-${{ github.run_number }}"
+          git push origin --tags
+
       - name: Upload demo.js to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: "demo-${{ github.run_number }}"
+          name: "Demo Release ${{ github.run_number }}"
+          prerelease: true
           files: packages/page-agent/dist/iife/page-agent.demo.js
