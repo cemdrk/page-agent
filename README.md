@@ -11,7 +11,7 @@ The GUI Agent Living in Your Webpage. Control web interfaces with natural langua
 
 🌐 **English** | [中文](./docs/README-zh.md)
 
-<a href="https://alibaba.github.io/page-agent/" target="_blank"><b>🚀 Demo</b></a> | <a href="https://alibaba.github.io/page-agent/docs/introduction/overview" target="_blank"><b>📖 Docs</b></a> | <a href="https://news.ycombinator.com/item?id=47264138" target="_blank"><b>📢 HN Discussion</b></a> | <a href="https://x.com/simonluvramen" target="_blank"><b>𝕏 Follow on X</b></a>
+<a href="https://cemdrk.github.io/page-agent/" target="_blank"><b>🚀 Demo</b></a> | <a href="https://alibaba.github.io/page-agent/docs/introduction/overview" target="_blank"><b>📖 Docs</b></a> | <a href="https://news.ycombinator.com/item?id=47264138" target="_blank"><b>📢 HN Discussion</b></a> | <a href="https://x.com/simonluvramen" target="_blank"><b>𝕏 Follow on X</b></a>
 
 <video id="demo-video" src="https://github.com/user-attachments/assets/a1f2eae2-13fb-4aae-98cf-a3fc1620a6c2" controls crossorigin muted></video>
 
@@ -38,20 +38,9 @@ The GUI Agent Living in Your Webpage. Control web interfaces with natural langua
 
 ## 🚀 Quick Start
 
-### One-line integration
+### Try the Demo
 
-Fastest way to try PageAgent with our free Demo LLM:
-
-```html
-<script src="{URL}" crossorigin="true"></script>
-```
-
-> **⚠️ For technical evaluation only.** This demo CDN uses our free [testing LLM API](https://alibaba.github.io/page-agent/docs/features/models#free-testing-api). By using it, you agree to its [terms](https://github.com/alibaba/page-agent/blob/main/docs/terms-and-privacy.md).
-
-| Mirrors | URL                                                                                |
-| ------- | ---------------------------------------------------------------------------------- |
-| Global  | https://cdn.jsdelivr.net/npm/page-agent@1.6.3/dist/iife/page-agent.demo.js         |
-| China   | https://registry.npmmirror.com/page-agent/1.6.3/files/dist/iife/page-agent.demo.js |
+Visit **[cemdrk.github.io/page-agent](https://cemdrk.github.io/page-agent/)** to see PageAgent in action.
 
 ### NPM Installation
 

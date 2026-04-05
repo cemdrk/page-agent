@@ -1,0 +1,16 @@
+
+services:
+  demo:
+    build: .
+    command: npm run dev:demo
+    ports:
+      - "5174:5174" 
+    tty: true
+    stdin_open: true
+  app:
+    build: .
+    command: npm run start
+    ports:
+      - "5173:5173"
+    tty: true
+    stdin_open: true

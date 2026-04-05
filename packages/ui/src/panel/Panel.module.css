@@ -1,6 +1,6 @@
 .wrapper {
 	position: fixed;
-	bottom: 100px;
+	bottom: 150px;
 	left: 50%;
 	transform: translateX(-50%) translateY(20px);
 	opacity: 0;
@@ -207,6 +207,10 @@
 			&:hover {
 				background: rgba(255, 255, 255, 0.2);
 			}
+		}
+
+		.settingsButton {
+			font-size: 14px;
 		}
 
 		.stopButton {
@@ -532,6 +536,111 @@
 	}
 	100% {
 		left: 100%;
+	}
+}
+
+.settingsSectionWrapper {
+	position: absolute;
+	width: var(--history-width);
+	bottom: var(--height);
+	left: var(--side-space);
+	z-index: -1;
+
+	transition: visibility 0.2s;
+
+	background: rgba(10, 10, 30, 0.85);
+	backdrop-filter: blur(10px);
+
+	border-top-left-radius: calc(var(--border-radius) + 4px);
+	border-top-right-radius: calc(var(--border-radius) + 4px);
+
+	border: 2px solid rgba(255, 255, 255, 0.3);
+	box-shadow: 0 -1px 16px rgba(0, 0, 0, 0.4);
+
+	&.hidden {
+		visibility: collapse;
+	}
+
+	.settingsSection {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		padding: 10px 10px 8px;
+
+		.settingsRow {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+
+			.settingsLabel {
+				color: rgba(255, 255, 255, 0.7);
+				font-size: 11px;
+				font-weight: 500;
+				white-space: nowrap;
+				width: 60px;
+				flex-shrink: 0;
+			}
+
+			.settingsInput {
+				flex: 1;
+				background: rgba(255, 255, 255, 0.15);
+				border: 1px solid rgba(255, 255, 255, 0.25);
+				border-radius: 6px;
+				padding-inline: 8px;
+				color: white;
+				font-size: 11px;
+				height: 26px;
+				line-height: 1;
+				outline: none;
+				transition: all 0.2s ease;
+
+				&::placeholder {
+					color: rgba(255, 255, 255, 0.35);
+				}
+
+				&:focus {
+					background: rgba(255, 255, 255, 0.22);
+					border-color: rgba(57, 182, 255, 0.6);
+					box-shadow: 0 0 0 2px rgba(57, 182, 255, 0.2);
+				}
+			}
+		}
+
+		.settingsActions {
+			display: flex;
+			justify-content: flex-end;
+			gap: 6px;
+			margin-top: 2px;
+
+			.settingsCancelButton,
+			.settingsSaveButton {
+				border: none;
+				border-radius: 6px;
+				padding: 4px 10px;
+				font-size: 11px;
+				font-weight: 500;
+				cursor: pointer;
+				transition: background 0.15s ease;
+			}
+
+			.settingsCancelButton {
+				background: rgba(255, 255, 255, 0.1);
+				color: rgba(255, 255, 255, 0.7);
+
+				&:hover {
+					background: rgba(255, 255, 255, 0.18);
+				}
+			}
+
+			.settingsSaveButton {
+				background: rgba(57, 182, 255, 0.25);
+				color: rgb(57, 182, 255);
+
+				&:hover {
+					background: rgba(57, 182, 255, 0.4);
+				}
+			}
+		}
 	}
 }
 
