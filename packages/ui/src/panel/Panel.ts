@@ -432,24 +432,24 @@ export class Panel {
 				</div>
 			</div>
 			<div class="${styles.settingsSectionWrapper} ${styles.hidden}">
-				<div class="${styles.settingsSection}">
+				<form class="${styles.settingsSection}" autocomplete="on" onsubmit="return false;">
 					<div class="${styles.settingsRow}">
 						<label class="${styles.settingsLabel}">${this.#i18n.t('ui.panel.settingsModel')}</label>
-						<input type="text" class="${styles.settingsInput}" data-field="model" value="${this.#config.model ?? ''}" placeholder="e.g. claude-haiku-4-5" />
+						<input type="text" name="model" class="${styles.settingsInput}" data-field="model" value="${this.#config.model ?? ''}" placeholder="e.g. claude-haiku-4-5" autocomplete="on" />
 					</div>
 					<div class="${styles.settingsRow}">
 						<label class="${styles.settingsLabel}">${this.#i18n.t('ui.panel.settingsBaseURL')}</label>
-						<input type="text" class="${styles.settingsInput}" data-field="baseURL" value="${this.#config.baseURL ?? ''}" placeholder="https://api.anthropic.com" />
+						<input type="text" name="username" class="${styles.settingsInput}" data-field="baseURL" value="${this.#config.baseURL ?? ''}" placeholder="https://api.anthropic.com" autocomplete="username" />
 					</div>
 					<div class="${styles.settingsRow}">
 						<label class="${styles.settingsLabel}">${this.#i18n.t('ui.panel.settingsApiKey')}</label>
-						<input type="password" class="${styles.settingsInput}" data-field="apiKey" value="${this.#config.apiKey ?? ''}" placeholder="sk-..." />
+						<input type="password" name="password" class="${styles.settingsInput}" data-field="apiKey" value="${this.#config.apiKey ?? ''}" placeholder="sk-..." autocomplete="current-password" />
 					</div>
 					<div class="${styles.settingsActions}">
-						<button class="${styles.settingsCancelButton}">${this.#i18n.t('ui.panel.settingsCancel')}</button>
-						<button class="${styles.settingsSaveButton}">${this.#i18n.t('ui.panel.settingsSave')}</button>
+						<button type="button" class="${styles.settingsCancelButton}">${this.#i18n.t('ui.panel.settingsCancel')}</button>
+						<button type="submit" class="${styles.settingsSaveButton}">${this.#i18n.t('ui.panel.settingsSave')}</button>
 					</div>
-				</div>
+				</form>
 			</div>
 		`
 
